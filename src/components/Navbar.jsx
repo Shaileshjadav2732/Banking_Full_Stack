@@ -10,7 +10,7 @@ export default function Navbar() {
             <div className="hidden lg:block">
               <ul className="flex space-x-10 text-base font-bold text-black/60 dark:text-white">
                 <li className="hover:underline hover:underline-offset-4 hover:w-fit transition-all duration-100 ease-linear">
-                  <Link to="/home">Home</Link>
+                  <Link to="/">Home</Link>
                 </li>
               </ul>
             </div>
