@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useState, createContext } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import { createContext } from "react";
 
 export const Context = createContext({ isAuthenticated: false });
+const server = "http://localhost:3000";
 
 const AppWrapper = () => {
+  const [showOtpVer, IsShowOtpVer] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   return (
-    <Context.Provider value={{ isAuthenticated: false }}>
+    <Context.Provider
+      value={{
+        loading,
+        setLoading,
+        isAuthenticated,
+        setIsAuthenticated,
+        showOtpVer,
+        IsShowOtpVer,
+      }}
+    >
       <App />
     </Context.Provider>
   );
