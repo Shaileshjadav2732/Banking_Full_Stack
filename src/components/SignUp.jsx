@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import { Context } from "../main";
 import { ToastContainer, toast } from "react-toastify";
-import { verifyEmail } from "../http/auth";
+import { verifyEmail ,startRegister} from "../http/auth";
 import { Navigate, useNavigate } from "react-router-dom";
+
+
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const { loading, setLoading } = useContext(Context);
@@ -64,7 +66,7 @@ const SignUp = () => {
           toast.success("your email verified successfully");
         })
         .then(() =>
-          setTimeout(() => {
+          setTimeout(() => {  
             navigate("/api/v1/users/completeProfile");
           },3000)
         );

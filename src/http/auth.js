@@ -1,6 +1,6 @@
-const startRegister = async (data) => {
+ export const startRegister = async (data) => {
   const res = await fetch("http://localhost:3000/api/v1/users/register", {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-type": "application/json"
     },
