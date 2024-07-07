@@ -4,9 +4,10 @@ import Navbar from "./components/Navbar";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import UserProfile from "./components/UserProfile";
 
 function App() {
-  return (
+  return (<>
     <Router>
       <Navbar />
       <Routes>
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
+    </>
   );
 }
 
