@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 
-const server = "http://localhost:3000";
+const server = "http://localhost:3000/api/v1";
 export const Context = createContext({ isAuthenticated: false });
 
 const AppWrapper = () => {

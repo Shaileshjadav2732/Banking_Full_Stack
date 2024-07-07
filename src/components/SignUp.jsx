@@ -36,13 +36,13 @@ const SignUp = () => {
       email: formObj.email,
       phoneNo: formObj.phone,
       password: formObj.password,
-      verified: true,
+      verified: false,
     };
 
     console.log(finalData);
     try {
       setLoading(true);
-      const startRegRes = await startRegister(finalData);
+      await startRegister(finalData);
 
       setShowOptVer(true);
       setLoading(false);

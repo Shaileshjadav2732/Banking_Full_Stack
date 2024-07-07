@@ -1,12 +1,20 @@
+//  import data from "../components/SignUp"
+ 
  export const startRegister = async (data) => {
   const res = await fetch("http://localhost:3000/api/v1/users/register", {
-    method: "PUT",
+    method: "POST",
     headers: {
       "Content-type": "application/json"
     },
+  
     body: JSON.stringify(data),
-  });
+  }
+
+)
+  
   const resData = await res.json();
+  console.log(resData);
+  console.log(res);
 }
 
 export const verifyEmail = async (data) => {
