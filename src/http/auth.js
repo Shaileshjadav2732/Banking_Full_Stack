@@ -1,7 +1,7 @@
 //  import data from "../components/SignUp"
  
 export const startRegister = async (data) => {
-  const res = await fetch("http://localhost:3000/users/register", {
+  const res = await fetch("http://localhost:3000/api/v1/users/register", {
     method: "POST",
     headers: {
       "Content-type": "application/json",
