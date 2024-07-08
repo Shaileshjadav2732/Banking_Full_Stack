@@ -1,56 +1,116 @@
-// src/components/HomePage.js
-import React from "react";
+import { Carousel, IconButton } from "@material-tailwind/react";
 
-const HomePage = () => {
+import HomePageImg1 from "../assets/HomePageImg1.png";
+import HomePageImg2 from "../assets/HomePageImg2.png";
+import HomePageImg3 from "../assets/HomePageImg3.png";
+
+export default function HomePage() {
   return (
-    <div className="bg-gray-800 h-screen flex flex-col items-center justify-center">
-      <div className="max-w-4xl mx-auto py-12 ">
-        {/* Hero Section */}
-        <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-          <h2 className="text-3xl font-semibold text-gray-800 mb-4">
-            Welcome to Your Banking Portal
-          </h2>
-          <p className="text-lg text-gray-600 mb-4">
-            Manage your finances with ease and security.
-          </p>
-         
+    <Carousel
+      className="rounded-xl mt-20"
+      autoplay={true}
+      navigation={({ setActiveIndex, activeIndex, length }) => (
+        <div className="absolute bottom-2 left-2/4 z-50 flex  -translate-x-2/4 gap-3">
+          {new Array(length).fill("").map((_, i) => (
+            <span
+              key={i}
+              className={`block h-2  cursor-pointer rounded-2xl transition-all content-[''] hover:bg-[#00ADB5] ${
+                activeIndex === i ? "w-8 bg-white" : "w-4 bg-[#222831]"
+              }`}
+              onClick={() => setActiveIndex(i)}
+            />
+          ))}
         </div>
-
-        {/* Features Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Feature 1 */}
-          <div className="bg-white shadow-md rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              Secure Transactions
-            </h3>
-            <p className="text-gray-600">
-              Your transactions are encrypted and secure.
-            </p>
-          </div>
-
-          {/* Feature 2 */}
-          <div className="bg-white shadow-md rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              24/7 Support
-            </h3>
-            <p className="text-gray-600">
-              Get help whenever you need it, day or night.
-            </p>
-          </div>
-
-          {/* Feature 3 */}
-          <div className="bg-white shadow-md rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              Easy Banking
-            </h3>
-            <p className="text-gray-600">
-              Manage your finances with our intuitive interface.
-            </p>
-          </div>
+      )}
+      prevArrow={({ handlePrev }) => (
+        <IconButton
+          variant="text"
+          size="lg"
+          onClick={handlePrev}
+          className="!absolute top-2/4 left-4 -translate-y-2/4 hover:bg-[#EEEEEE]"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="h-6 w-6 hover:text-[#00ADB5]"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+            />
+          </svg>
+        </IconButton>
+      )}
+      nextArrow={({ handleNext }) => (
+        <IconButton
+          variant="text"
+          size="lg"
+          onClick={handleNext}
+          className="!absolute top-2/4 !right-4 -translate-y-2/4 hover:bg-[#EEEEEE]"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="h-6 w-6 hover:text-[#00ADB5]"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+            />
+          </svg>
+        </IconButton>
+      )}
+    >
+      <div className="-mt-[4rem] mb-10">
+        <img src={HomePageImg1} alt="image 1" className="ml-[35rem]" />
+        <div className="flex flex-col items-center gap-2 text-[#222831]">
+          <h1 className="text-4xl">Fastest Payment in the world</h1>
+          <p>
+            Integrate multiple payment methoods to help you up the process
+            quickly
+          </p>
         </div>
       </div>
-    </div>
-  );
-};
 
-export default HomePage;
+      <div className="-mt-[4rem] mb-10">
+        <img src={HomePageImg2} alt="image 2" className="ml-[35rem]" />
+        <div className="flex flex-col items-center gap-2 text-[#222831]">
+          <h1 className="text-4xl">The most Secoure Platfrom for Customer</h1>
+          <p>
+            Built-in Fingerprint, face recognition and more, keeping you
+            completely safe
+          </p>
+        </div>
+      </div>
+
+      <div className=" mb-10">
+        <img
+          src={HomePageImg3}
+          alt="image 3"
+          className="h-96 ml-[35rem] mt-4"
+        />
+        <div className="flex flex-col items-center gap-2 text-[#222831]">
+          <h1 className="text-4xl">
+            Paying for Everything is Easy and Convenient
+          </h1>
+          <p>
+            Built-in Fingerprint, face recognition and more, keeping you
+            completely safe
+          </p>
+        </div>
+      </div>
+    </Carousel>
+  );
+}
+
+// <Carousel className="rounded-xl">
+
+// </Carousel>
