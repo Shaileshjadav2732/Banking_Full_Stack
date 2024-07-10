@@ -22,7 +22,9 @@ const AdminHome = lazy(() => import("./components/admin/AdminHome"));
 const Transactions = lazy(() => import("./components/admin/Transactions"));
 const Users = lazy(() => import("./components/admin/Users"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
-const UserTransaction = lazy(() => import("./components/admin/UserTransaction"));
+const UserTransaction = lazy(() =>
+  import("./components/admin/UserTransaction")
+);
 const EditProfile = lazy(() => import("./components/EditProfile"));
 
 function App() {
