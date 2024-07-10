@@ -52,8 +52,9 @@ export default function LogIn({ loginHandler }) {
         });
       })
       .catch((err) => {
-        toast.error(err);
+        toast.error("user data not found");
         console.log(err);
+        setLoading(false);
       });
   };
 
