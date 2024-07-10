@@ -8,12 +8,12 @@ export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { setIsAuthenticated, setLoading, loading } = useContext(Context);
+  const { setIsAuthenticated ,setLoading,loading} = useContext(Context);
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      setIsAuthenticated(false);
+      setIsAuthenticated(false)
       const { data } = await axios.post(
         `${server}/admin/login`,
         { email, password },
@@ -27,15 +27,16 @@ export default function AdminLogin() {
       await toast.promise(Promise.resolve(toast.success(data.message)), {
         onClose: () => "",
       });
-      console.log(data);
-      setIsAuthenticated(true);
+      console.log(data)
+      setIsAuthenticated(true)
       setLoading(false);
 
-      navigate("/admin");
+      navigate("/admin")
+
     } catch (error) {
       toast.error(error.response.data.message);
-      setIsAuthenticated(false);
-      setLoading(false);
+      setIsAuthenticated(false)
+      setLoading(false)
     }
   };
 
@@ -72,7 +73,7 @@ export default function AdminLogin() {
             required
             className="border p-2 w-full mb-2 bg-[#222831] text-[#EEEEEE]"
           />
-          <button
+           <button
             type="submit"
             disabled={loading}
             className="disabled:bg-[#222831] disabled:text-[#EEEEEE] bg-[#EEEEEE] mt-6 text-[#222831] py-2 px-4 rounded w-full  hover:bg-[#393E46] hover:text-[#EEEEEE]"

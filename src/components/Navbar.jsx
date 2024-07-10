@@ -1,30 +1,80 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
+import useSignOut from "react-auth-kit/hooks/useSignOut";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Navbar() {
+  const [logout, setLogOut] = useState(false);
+  const isAuthenticated = useIsAuthenticated();
+  const signOut = useSignOut();
+
+  const logOutHandler = (e) => {
+    e.preventDefault();
+    setLogOut(!logout);
+    signOut();
+  };
+
+  useEffect(() => {
+    {
+      if(!isAuthenticated)
+         toast.info(" your are LoggedOut !! logIn again for access")
+       
+    }
+  }, [logout]);
+
   return (
-    <div>
-      <div className="top-0 py-1 lg:py-2 w-full bg-transparent lg:relative z-50 dark:bg-gray-900">
-        <nav className="z-10 sticky top-0 left-0 right-0 max-w-4xl xl:max-w-5xl mx-auto px-5 py-2.5 lg:border-none lg:py-4">
-          <div className="flex items-center justify-between">
-            <div className="hidden lg:block">
-              <ul className="flex space-x-10 text-base font-bold text-black/60 dark:text-white">
-                <li className="hover:underline hover:underline-offset-4 hover:w-fit transition-all duration-100 ease-linear">
-                  <Link to="/">Home</Link>
-                </li>
-              </ul>
-            </div>
-            <div className="hidden lg:flex lg:items-center gap-x-2">
-              <button className="flex items-center text-black dark:text-white justify-center px-6 py-2.5 font-semibold">
-                <Link to="/signUp">Sign up</Link>
-              </button>
-              <button className="flex items-center justify-center rounded-md bg-[#4A3BFF] text-white px-6 py-2.5 font-semibold hover:shadow-lg hover:drop-shadow transition duration-200">
-                <Link to="/login">Login</Link>
-              </button>
-            </div>
+    <>
+      <nav className="grid grid-rows-none grid-cols-3 gap-4 h-12 bg-[#222831] text-[#EEEEEE] text-xl p-3">
+        <ul className="flex col-span-2 gap-4 bg-[#222831]">
+          <li className=" hover:text-[#3c4545] bg-[#222831]">
+            <NavLink className="bg-[#222831]" to={"/"}>
+              XYZ Banking
+            </NavLink>
+          </li>
+        </ul>
+        {!isAuthenticated ? (
+          <ul className="flex gap-9 flex-row-reverse mr-3 bg-[#222831]">
+            <li className="hover:text-[#00ADB5] bg-[#222831]">
+              <NavLink className="bg-[#222831]" to={"/signup"}>
+                Sign Up
+              </NavLink>
+            </li>
+            <li className="hover:text-[#00ADB5] bg-[#222831]">
+              <NavLink className="bg-[#222831] " to={"/login"}>
+                Login
+              </NavLink>
+            </li>
+          </ul>
+        ) : (
+          <div className="bg-[#222831] space-x-12">
+            <NavLink
+              to={"/user/transaction"}
+              className="text-white hover:text-[#00ADB5]  bg-[#222831]"
+            >
+              Transaction
+            </NavLink>
+            <button
+              className=" hover:text-[#00ADB5] text-white bg-[#222831] "
+              onClick={logOutHandler}
+            >
+              Logout
+            </button>
           </div>
-        </nav>
-      </div>
-    </div>
+        )}
+      </nav>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover={false}
+        theme="light"
+      />
+    </>
   );
 }

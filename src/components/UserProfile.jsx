@@ -20,7 +20,7 @@ const UserProfile = () => {
     fetchUser(auth.userId, authHeader, null)
       .then((resData) => {
         setUserDetails(resData.user);
-        setImageUrl("http://localhost:3000/" + resData.user.image);
+        setImageUrl("http://localhost:5000/" + resData.user.image);
         setDOB(resData.user.dob.split("T")[0]);
       })
       .catch((err) => {

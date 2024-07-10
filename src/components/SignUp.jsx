@@ -1,59 +1,62 @@
-import React, { useState } from "react";
-import { useContext } from "react";
-import { Context } from "../main";
+import React, { useContext, useState } from "react";
+import { startRegister, verifyEmail, verifySign } from "../https/auth";
 import { ToastContainer, toast } from "react-toastify";
-import { verifyEmail, startRegister } from "../http/auth";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../main";
 
-const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const { loading, setLoading } = useContext(Context);
+function SignUp({ keyPairs }) {
   const [showOtpVer, setShowOptVer] = useState(false);
+  const [email, setEmail] = useState("");
   const [userId, setUserId] = useState("");
-  const formObj = {};
+  const { loading, setLoading } = useContext(Context);
 
   const navigate = useNavigate();
 
-  const registerHandler = async (event) => {
+  const submitHandlerRegister = async (event) => {
     event.preventDefault();
     const fd = new FormData(event.target);
-    console.log(fd);
 
-    fd.forEach((value, key) => {
-      formObj[key] = value;
-    });
-    console.log(formObj);
-    setEmail(formObj.email);
-    console.log(email);
+    const acquisitionChannel = fd.getAll("acquisition");
+    const data = Object.fromEntries(fd.entries());
+    data.acquisition = acquisitionChannel;
+
+    setEmail(data.email);
+
     const finalData = {
       deviceDetails: {
-        id: formObj.deviceId,
-        os: formObj.os,
-        version: formObj.version,
-        manufacturer: formObj.manufacturer,
-        model: formObj.model,
+        id: data.deviceId,
+        os: data.os,
+        version: data.version,
+        manufacturer: data.manufacturer,
+        model: data.model,
       },
-      email: formObj.email,
-      phoneNo: formObj.phone,
-      password: formObj.password,
-      verified: false,
+      email: data.email,
+      phoneNo: data.phone,
+      password: data.password,
+      privateKey: keyPairs.privateKey,
     };
 
-    console.log(finalData);
     try {
       setLoading(true);
-     const startRegRes= await startRegister(finalData);
+      const startRegRes = await startRegister(finalData);
+      const signature = startRegRes.data.signature;
+      setUserId(startRegRes.data.userId);
+
+      // verification of data using digital signature
+      await verifySign({
+        phoneNo: data.phone,
+        signature: signature,
+        publicKey: keyPairs.publicKey,
+      });
       setShowOptVer(true);
-      setUserId(startRegRes.userId);
-      console.log(userId);
+      // toast.success("otp send");
       setLoading(false);
-    } catch (error) {
-      toast.error(error.message);
+    } catch (err) {
+      toast.error(err.message);
     }
   };
 
- 
-    const verifyOtpHandler = async (event) => {
+    const submitHandlerOtp = async (event) => {
       event.preventDefault();
 
       const fd = new FormData(event.target);
@@ -63,29 +66,28 @@ const SignUp = () => {
 
       try {
         const resOfOtpVerification = await verifyEmail({
-          otp: data.otp,
-          userId: userId,
+        otp: data.otp,
+        userId: userId,
+      })
+        .then(() => {
+          toast.success("Your Email Verfied Successfully!");
         })
-          .then(() => {
-            toast.success("Your Email Verfied Successfully!");
-          })
-          .then(() => {
-            setTimeout(() => {
-              navigate("/users/editprofile");
-            }, 3000);
-          });
-      } catch (err) {
-      ;
-        toast.error("some error occured in verification!");
-      }
-    };
-
+        .then(() => {
+          setTimeout(() => {
+            navigate("/user/editprofile");
+          }, 3000);
+        });
+    } catch (err) {
+      console.log(err);
+      toast.error("some error occured in verification!");
+    }
+  };
 
   return (
     <>
       <div className="flex justify-center items-center mt-9 ">
         <div className=" p-8 shadow-md w-96 rounded-2xl bg-[#222831] text-[#EEEEEE]">
-          <form onSubmit={registerHandler} className="bg-[#222831]">
+          <form onSubmit={submitHandlerRegister} className="bg-[#222831]">
             {/* Device Details Section */}
             {!showOtpVer && (
               <div className="mb-4 bg-[#222831]">
@@ -177,7 +179,7 @@ const SignUp = () => {
 
           {showOtpVer && (
             <div className="mb-4 w-[100%] bg-[#222831] ">
-              <form onSubmit={verifyOtpHandler} className="bg-[#222831]">
+              <form onSubmit={submitHandlerOtp} className="bg-[#222831]">
                 <div className="bg-[#222831]">
                   <button
                     onClick={(e) => {
@@ -251,6 +253,6 @@ const SignUp = () => {
       />
     </>
   );
-};
+}
 
 export default SignUp;

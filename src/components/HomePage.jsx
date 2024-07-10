@@ -1,4 +1,4 @@
-import { Carousel, IconButton } from "@material-tailwind/react";
+import { Carousel, Typography, IconButton } from "@material-tailwind/react";
 
 import HomePageImg1 from "../assets/HomePageImg1.png";
 import HomePageImg2 from "../assets/HomePageImg2.png";

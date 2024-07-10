@@ -7,7 +7,7 @@ import Loader from "./Loader";
 export default function Root() {
   return (
     <div>
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<Loader/>}>
         <Navbar />
         <Outlet />
       </Suspense>

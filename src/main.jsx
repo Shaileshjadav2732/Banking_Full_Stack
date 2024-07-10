@@ -1,30 +1,43 @@
-import React, { useState, createContext } from "react";
+import React, { createContext, useState } from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import App from "./App.jsx";
 import "./index.css";
+import AuthProvider from "react-auth-kit/AuthProvider";
+import createStore from "react-auth-kit/createStore";
+import { BrowserRouter } from "react-router-dom";
 
-const server = "http://localhost:3000/api/v1";
+export const server = "http://localhost:5000";
+
 export const Context = createContext({ isAuthenticated: false });
 
+const store = createStore({
+  authName: "_auth",
+  authType: "cookie",
+  cookieDomain: window.location.hostname,
+  cookieSecure: window.location.protocol === "https:",
+});
+
 const AppWrapper = () => {
-  const [showOtpVer, IsShowOtpVer] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(false);
- const [user, setUser] = useState({});
+  const [user, setUser] = useState({});
+
   return (
     <Context.Provider
       value={{
-        loading,
-        setLoading,
         isAuthenticated,
         setIsAuthenticated,
-        showOtpVer,
-        IsShowOtpVer,
+        loading,
+        setLoading,
         user,
         setUser,
       }}
     >
-      <App />
+      <AuthProvider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AuthProvider>
     </Context.Provider>
   );
 };

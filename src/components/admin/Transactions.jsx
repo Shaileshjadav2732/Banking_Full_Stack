@@ -4,6 +4,7 @@ import axios from "axios";
 import { Context, server } from "../../main";
 import { ToastContainer } from "react-toastify";
 export default function Transactions() {
+
   const { loading, setLoading } = useContext(Context);
   const [tranData, setTranData] = useState([]);
 
@@ -28,10 +29,12 @@ export default function Transactions() {
     fetchFunction();
   }, []);
 
+
+
   const data = React.useMemo(() => {
     return tranData.map((tran, index) => ({
-      trid: tran._id,
-      title: tran.title,
+      trid:tran._id,
+      title:tran.title,
       amount: tran.amount,
       from: tran.senderId,
       to: tran.receiverId,
@@ -40,6 +43,7 @@ export default function Transactions() {
     }));
   }, [tranData]);
 
+ 
   const columns = React.useMemo(
     () => [
       { Header: "Sr no.", accessor: (row, index) => index + 1 },
@@ -64,7 +68,7 @@ export default function Transactions() {
   );
 
   return (
-    <>
+<>
       <div>
         {loading ? (
           "loading data..."
@@ -85,5 +89,6 @@ export default function Transactions() {
         theme="light"
       />
     </>
+ 
   );
 }

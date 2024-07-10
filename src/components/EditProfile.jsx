@@ -1,7 +1,43 @@
-import React from "react";
-
+import React, { useState } from "react";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import { completeProfile } from "../https/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function EditProfile() {
+  const auth = useAuthUser();
+  const authHeader = useAuthHeader();
+  const navigate = useNavigate();
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+
+    const acquisitionChannel = fd.getAll("acquisition");
+    const data = Object.fromEntries(fd.entries());
+    data.acquisition = acquisitionChannel;
+
+    const finalData = {
+      userId: auth.userId,
+      name: data.name,
+      address: data.address,
+      dob: data.dob,
+      bank: data.bank,
+      upipin: data.upipin,
+      image: data.image,
+    };
+
+    completeProfile(finalData, authHeader)
+      .then((resData) => {
+        console.log(resData);
+      })
+      .then(() => {
+        navigate("/user/profile");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="flex justify-center items-center mt-9 ">
       <div className=" p-8 shadow-md w-96 rounded-2xl bg-[#222831] text-[#EEEEEE]">

@@ -1,9 +1,10 @@
 import { Card, CardHeader, CardBody, Button } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
-import {  makeTransaction } from "../https/transaction";
+import { genreateSignature, makeTransaction } from "../https/transaction";
 import { encryptData } from "../utils/encrypt";
+import { fetchKeyPairs, fetchUser } from "../https/auth";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -12,7 +13,34 @@ export default function MakeTransaction() {
   const authHeader = useAuthHeader();
 
   const [activeTab, setActiveTab] = useState("accountNo");
+
+  const [keyPairs, setKeyPairs] = useState({
+    publicKey: "",
+    privateKey: "",
+  });
+
+  const [signature, setSignature] = useState("");
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchPairsOfKey() {
+      try {
+        const objectOfKeyPairs = await fetchKeyPairs();
+        setKeyPairs(objectOfKeyPairs);
+        const generateSignature = await genreateSignature(
+          { senderId: auth.userId, privateKey: objectOfKeyPairs.privateKey },
+          authHeader
+        );
+        setSignature(generateSignature.signature);
+      } catch (error) {
+        console.log(error);
+        throw new Error("Could not genreate signature and keypairs!");
+      }
+    }
+    fetchPairsOfKey();
+  }, []);
+
   const changePaymentMethod = (method) => {
     method === "account" ? setActiveTab("accountNo") : setActiveTab("phoneNo");
   };
@@ -40,6 +68,8 @@ export default function MakeTransaction() {
         throw new Error("Can't send money to your Account No");
       }
       finalData = {
+        publicKey: keyPairs.publicKey,
+        signature: signature,
         senderId: auth.userId,
         acNo: data.AcoountNumber,
         upiPin: encryptPin,
@@ -66,6 +96,8 @@ export default function MakeTransaction() {
       }
 
       finalData = {
+        publicKey: keyPairs.publicKey,
+        signature: signature,
         senderId: auth.userId,
         phone: extractedMobileNumber,
         upiPin: encryptPin,
@@ -99,7 +131,7 @@ export default function MakeTransaction() {
           variant="outlined"
           onClick={() => {
             changePaymentMethod("account");
-          }}
+          }} 
         >
           Using Account No
         </Button>
