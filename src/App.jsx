@@ -3,7 +3,7 @@ import Error from "./components/Error";
 import Root from "./components/Root";
 import "react-toastify/dist/ReactToastify.css";
 import AuthOutlet from "@auth-kit/react-router/AuthOutlet";
-import LogIn from "./components/LogIn";
+import LogIn from "./components/Login";
 import { lazy, useContext, useEffect, useState } from "react";
 import { fetchKeyPairs } from "./https/auth";
 import { Context, server } from "./main";
