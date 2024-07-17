@@ -10,7 +10,7 @@ export const genreateSignature = async (data, authHeader) => {
       body: JSON.stringify(data),
     }
   );
-console.log(res)
+
   const resData = await res.json();
 
   if (res.status !== 201) {

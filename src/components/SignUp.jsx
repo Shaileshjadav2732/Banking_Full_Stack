@@ -56,16 +56,16 @@ function SignUp({ keyPairs }) {
     }
   };
 
-    const submitHandlerOtp = async (event) => {
-      event.preventDefault();
+  const submitHandlerOtp = async (event) => {
+    event.preventDefault();
 
-      const fd = new FormData(event.target);
-      const acquisitionChannel = fd.getAll("acquisition");
-      const data = Object.fromEntries(fd.entries());
-      data.acquisition = acquisitionChannel;
+    const fd = new FormData(event.target);
+    const acquisitionChannel = fd.getAll("acquisition");
+    const data = Object.fromEntries(fd.entries());
+    data.acquisition = acquisitionChannel;
 
-      try {
-        const resOfOtpVerification = await verifyEmail({
+    try {
+      const resOfOtpVerification = await verifyEmail({
         otp: data.otp,
         userId: userId,
       })
@@ -241,7 +241,7 @@ function SignUp({ keyPairs }) {
       </div>
       <ToastContainer
         position="top-center"
-        autoClose={1500}
+        autoClose={1000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

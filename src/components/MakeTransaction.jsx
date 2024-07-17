@@ -128,10 +128,10 @@ export default function MakeTransaction() {
               ? "bg-[#222831] text-[#EEEEEE]  hover:bg-[#393E46]"
               : ""
           }  mr-4 `}
-          variant="outlined"
+          variant="text"
           onClick={() => {
             changePaymentMethod("account");
-          }} 
+          }}
         >
           Using Account No
         </Button>
@@ -141,7 +141,7 @@ export default function MakeTransaction() {
               ? "bg-[#222831] text-[#EEEEEE]  hover:bg-[#393E46]"
               : ""
           }   `}
-          variant="outlined"
+          variant="text"
           onClick={() => {
             changePaymentMethod("phone");
           }}
