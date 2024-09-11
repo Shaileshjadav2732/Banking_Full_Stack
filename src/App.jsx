@@ -11,7 +11,7 @@ import axios from "axios";
 
 const HomePage = lazy(() => import("./components/HomePage"));
 const SignUp = lazy(() => import("./components/SignUp"));
-const LogIn = lazy(() => import("./components/Login"));
+const LogIn = lazy(() => import("./components/LogIn"));
 const UserHomePage = lazy(() => import("./components/UserHomePage"));
 const MakeTransaction = lazy(() => import("./components/MakeTransaction"));
 const History = lazy(() => import("./components/History"));
@@ -22,7 +22,9 @@ const AdminHome = lazy(() => import("./components/admin/AdminHome"));
 const Transactions = lazy(() => import("./components/admin/Transactions"));
 const Users = lazy(() => import("./components/admin/Users"));
 const AdminLogin = lazy(() => import("./components/admin/AdminLogin"));
-const UserTransaction = lazy(() => import("./components/admin/UserTransaction"));
+const UserTransaction = lazy(() =>
+  import("./components/admin/UserTransaction")
+);
 const EditProfile = lazy(() => import("./components/EditProfile"));
 
 function App() {

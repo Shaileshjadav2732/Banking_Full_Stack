@@ -13,7 +13,7 @@ export default function UserTransaction() {
 
   const fetchFunction = async () => {
     try {
-      setLoading(true);
+      setLoading(true); 
       const { data } = await axios.post(
         `${server}/admin/usertran`,
         { id },
