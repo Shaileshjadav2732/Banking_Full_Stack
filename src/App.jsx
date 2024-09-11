@@ -11,7 +11,7 @@ import axios from "axios";
 
 const HomePage = lazy(() => import("./components/HomePage"));
 const SignUp = lazy(() => import("./components/SignUp"));
-const LogIn = lazy(() => import("./components/LogIn"));
+const LogIn = lazy(() => import("./components/login"));
 const UserHomePage = lazy(() => import("./components/UserHomePage"));
 const MakeTransaction = lazy(() => import("./components/MakeTransaction"));
 const History = lazy(() => import("./components/History"));
